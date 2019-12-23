@@ -12,6 +12,7 @@ export default function TestComponent(props) {
   const [wrong, setWrong] = useState(0);
   let currentQues = questions[questionIdx];
   const [end, setEnd] = useState(false);
+  const [incompleteQuestions, setIncompleteQuestions] = useState([]);
   useEffect(() => {
     fetch(testRoute + pk)
       .then(res => res.json())
@@ -27,39 +28,74 @@ export default function TestComponent(props) {
       alert("Correct ans");
       setScore(score + 1);
       questions[questionIdx].completed = true;
-     
     } else {
       alert("Wrong ans");
       setWrong(wrong + 1);
       questions[questionIdx].completed = true;
-
-     
     }
   };
   const handleNext = () => {
-    if (questionIdx !== questions.length - 1) {
-      setQuestionIDx(questionIdx + 1);
-    } else {
+    if(questionIdx === questions.length -1){
       // eslint-disable-next-line no-restricted-globals
-      var result = confirm("Are you sure want to quit");
-      if (result) {
-        setEnd(true);
+      const result=confirm("Are you sure want to end the test");
+      if(result){
+        setEnd(true)
       }
     }
+    else{
+    setQuestionIDx(parseInt(questionIdx + 1));
+    
+    }
   };
+  const handleIndexChange = e => {
+    console.log(e.target.value);
+    setQuestionIDx(parseInt(e.target.value));
+  };
+
   const handlePrevious = () => {
     if (questionIdx !== 0) {
       setQuestionIDx(questionIdx - 1);
     }
   };
+  const markForlater = () => {
+    questions[questionIdx].completed = false;
+    handleNext();
+  };
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       {end === false ? (
         <div className="container">
           <div style={{ textAlign: "center", paddingTop: "50px" }}>
             <ScoreShower score={score}></ScoreShower>
           </div>
+
+          {questions.map((item, index) => {
+            return item.completed === false ? (
+              <button
+                value={index}
+                onClick={e => handleIndexChange(e)}
+                style={{ color: "black", backgroundColor: "red" }}
+              >
+                {" "}
+                {index}
+              </button>
+            ) : item.completed === true ? (
+              <button
+                value={index}
+                onClick={e => handleIndexChange(e)}
+                style={{ color: "black", backgroundColor: "green" }}
+              >
+                {" "}
+                {index}
+              </button>
+            ) : (
+              <button value={index} onClick={e => handleIndexChange(e)}>
+                {" "}
+                {index}
+              </button>
+            );
+          })}
 
           {currentQues === undefined ? (
             <h1> Loading</h1>
@@ -86,6 +122,7 @@ export default function TestComponent(props) {
               </div>
               <button onClick={handlePrevious}> Previous</button>{" "}
               <button onClick={handleNext}> Next</button>
+              <button onClick={markForlater}> Mark for Review</button>
             </div>
           )}
         </div>
