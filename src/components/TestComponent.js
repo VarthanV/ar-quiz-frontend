@@ -12,7 +12,7 @@ export default function TestComponent(props) {
   const [wrong, setWrong] = useState(0);
   let currentQues = questions[questionIdx];
   const [end, setEnd] = useState(false);
-  const [incompleteQuestions, setIncompleteQuestions] = useState([]);
+  //const [incompleteQuestions, setIncompleteQuestions] = useState([]);
   useEffect(() => {
     fetch(testRoute + pk)
       .then(res => res.json())
@@ -22,7 +22,7 @@ export default function TestComponent(props) {
   }, [pk]);
 
   const handleAnswer = e => {
-    console.log(e.target.value);
+    
 
     if (e.target.value === currentQues.answer) {
       alert("Correct ans");
