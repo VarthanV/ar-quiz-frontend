@@ -27,13 +27,13 @@ export default function TestComponent(props) {
       alert("Correct ans");
       setScore(score + 1);
       questions[questionIdx].completed = true;
-      console.log(currentQues);
+     
     } else {
       alert("Wrong ans");
       setWrong(wrong + 1);
       questions[questionIdx].completed = true;
 
-      console.log(currentQues);
+     
     }
   };
   const handleNext = () => {
