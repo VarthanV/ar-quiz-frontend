@@ -19,7 +19,7 @@ export default function TestComponent(props) {
       .then(data => {
         setQuestion(data["questions"]);
       });
-  }, [pk]);
+  }, []);
 
   const handleAnswer = e => {
     

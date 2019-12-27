@@ -8,25 +8,22 @@ export default function Home() {
   useEffect(() => {
     fetch(homeRoute)
       .then(res => res.json())
-      .then(
-        data => {
-          setQuiz(data);
-          return () => setQuiz([]);
-        },
-        [quiz]
-      );
-  });
+      .then(data => {
+        setQuiz(data);
+      });
+  }, []);
 
   return (
     <div>
       <Navbar />
       {quiz.map(item => (
         <div key={item.pk}>
-        <QuizItem
-          name={item.name}
-          description={item.description}
-          pk={item.pk}
-        ></QuizItem>
+          <QuizItem
+            key={item.pk}
+            name={item.name}
+            description={item.description}
+            pk={item.pk}
+          ></QuizItem>
         </div>
       ))}
     </div>
