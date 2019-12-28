@@ -1,0 +1,76 @@
+.navbar-style{
+    background-color: rgba(176, 176, 176, 0.023);
+    box-shadow: rgb(0, 0, 0) 0px 0px 10px 0px;
+}
+.card{
+    background-color: rgba(255, 255, 255, 0.152);
+    padding: 1%
+}
+.btn-secondary{
+    background-color: rgba(255, 255, 255, 0.152);
+    
+}
+.btn-secondary:hover{
+    background-color: rgba(255, 255, 255, 0.556);
+    color: rgb(60, 60, 60);
+}
+.mark-button-primary{
+    background-color: rgba(255, 255, 255, 0.152);
+    border-color: rgba(255, 255, 255, 0);
+    border-radius: 3px;
+    color: white;
+}
+.mark-button-primary:hover{
+    background-color: rgba(255, 255, 255, 0.556);
+    color: rgb(60, 60, 60);
+}
+.mark-button-success{
+    background-color: rgba(0, 255, 30, 0.604);
+    border-color: rgba(255, 255, 255, 0);
+    border-radius: 3px;
+    color: white;
+
+}
+.mark-button-danger{
+    background-color: rgba(255, 13, 13, 0.604);
+    border-color: rgba(255, 255, 255, 0);
+    border-radius: 3px;
+    color: white;
+
+}
+.mark-button-warning{
+    background-color: rgba(255, 255, 0, 0.796);
+    border-color: rgba(255, 255, 255, 0);
+    border-radius: 3px;
+    color: white;
+
+}
+.button-primary{
+    background-color: rgba(255, 255, 255, 0.152);
+    border-color: rgba(255, 255, 255, 0);
+    border-radius: 3px;
+    color: white;
+}
+.button-primary:hover{
+    background-color: rgba(255, 255, 255, 0.556);
+    color: rgb(60, 60, 60);
+}
+.button-success{
+    background-color: rgba(0, 255, 30, 0.604);
+    border-color: rgba(255, 255, 255, 0);
+    border-radius: 3px;
+    color: white;
+}
+.button-warning{
+    background-color: rgba(255, 255, 0, 0.865);
+    border-color: rgba(255, 255, 255, 0);
+    border-radius: 3px;
+    color: rgb(0, 0, 0);
+}
+
+input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+  }

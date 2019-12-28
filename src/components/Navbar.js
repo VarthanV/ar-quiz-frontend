@@ -3,10 +3,10 @@ import {Link} from 'react-router-dom';
 export default function Navbar() {
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a className="navbar-brand" href="#">
-          AR Coaching
-        </a>
+      <nav className="navbar navbar-style navbar-dark navbar-expand-lg pl-5 pr-5">
+        <Link className="navbar-brand" to="/">
+          AR Coaching Center
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -21,15 +21,27 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item active">
-              <a className="nav-link" href="#">
-                Home <span className="sr-only">(current)</span>
-              </a>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to="/new">
-                Features
+              <Link className="nav-link" to="/">
+                Home
               </Link>
             </li>
+            <li className="nav-item active">
+              <Link className="nav-link" to="#">
+                Mock Test
+              </Link>
+            </li>
+            <li className="nav-item active">
+              <Link className="nav-link" to="#">
+                Your progress
+              </Link>
+            </li>
+          </ul>
+          <ul className="navbar-nav ml-auto">
+            <li className="nav-item active">
+              <Link to="" className="nav-link">
+                <i className="fa fa-user"></i>
+              </Link>
+            </li> 
           </ul>
         </div>
       </nav>

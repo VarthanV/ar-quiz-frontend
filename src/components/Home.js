@@ -5,6 +5,7 @@ import { homeRoute } from "./helper";
 
 export default function Home() {
   const [quiz, setQuiz] = useState([]);
+  const author =localStorage.getItem('author');
   useEffect(() => {
     fetch(homeRoute)
       .then(res => res.json())
@@ -15,17 +16,24 @@ export default function Home() {
 
   return (
     <div>
-      <Navbar />
-      {quiz.map(item => (
-        <div key={item.pk}>
-          <QuizItem
-            key={item.pk}
-            name={item.name}
-            description={item.description}
-            pk={item.pk}
-          ></QuizItem>
-        </div>
-      ))}
+      
+      <h1 className="display-4 text-center p-5" style={{color: "white"}}>Available Mock Tests</h1>
+      <div className="container">
+        {quiz.map(item => (
+          <div key={item.pk}>
+            <QuizItem
+              key={item.pk}
+              name={item.name}
+              description={item.description}
+              pk={item.pk}
+              
+            ></QuizItem>
+            {console.log(author)
+            }
+            <br></br>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

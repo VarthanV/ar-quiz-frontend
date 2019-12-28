@@ -8,9 +8,9 @@ const styles={
 
 export default function ScoreShower({score}) {
     return (
-        <div>
-<p style={styles.red}> Your Score is {score}</p>
-            
+        <div className="card p-3">
+            <h1 style={{color: "white"}} className="display-1 mb-0">{score}</h1>
+            <p style={{color: "white"}}>Your marks now</p>
         </div>
     )
 }
