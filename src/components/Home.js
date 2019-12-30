@@ -5,8 +5,10 @@ import { homeRoute } from "./helper";
 
 export default function Home() {
   const [quiz, setQuiz] = useState([]);
-  const author =localStorage.getItem('author');
+  const [author,setAuthor] = useState(false);
   useEffect(() => {
+    const authorData =localStorage.getItem('author');
+    setAuthor(authorData);
     fetch(homeRoute)
       .then(res => res.json())
       .then(data => {
@@ -26,10 +28,8 @@ export default function Home() {
               name={item.name}
               description={item.description}
               pk={item.pk}
-              
+              author ={author}
             ></QuizItem>
-            {console.log(author)
-            }
             <br></br>
           </div>
         ))}

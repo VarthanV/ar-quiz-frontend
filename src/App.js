@@ -6,6 +6,7 @@ import CreateTest from "./components/CreateTest";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Navbar from "./components/Navbar";
+import EditTest from "./components/EditTest";
 function App() {
   return (
     <Router>
@@ -16,6 +17,7 @@ function App() {
         <Route path="/new" exact component={CreateTest}></Route>
         <Route path="/login" exact component={Login}></Route>
         <Route path="/register" exact component={Register}></Route>
+        <Route path="/edit/:pk" exact component ={EditTest}> </Route>
       </div>
     </Router>
   );

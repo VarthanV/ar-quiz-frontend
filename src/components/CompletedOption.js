@@ -7,11 +7,13 @@ export default function CompletedOption({ options, correctOption }) {
         <div key={item}>
             {item === correctOption ? (
                 <button
+                disabled
                 className="button-success mr-3">
                     {item}
                 </button>
             ) : (
                 <button
+                disabled
                 className="button-primary mr-3">
                     {item}
                 </button>

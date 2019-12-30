@@ -1,6 +1,8 @@
 import React from "react";
 import {Link} from 'react-router-dom';
 export default function Navbar() {
+  const token = localStorage.getItem('token');
+  
   return (
     <div>
       <nav className="navbar navbar-style navbar-dark navbar-expand-lg pl-5 pr-5">
