@@ -1,8 +1,8 @@
 import React from "react";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 export default function Navbar() {
   const token = localStorage.getItem('token');
-  
+
   return (
     <div>
       <nav className="navbar navbar-style navbar-dark navbar-expand-lg  bg-dark pl-md-5 pr-md-5">
@@ -39,11 +39,21 @@ export default function Navbar() {
             </li>
           </ul>
           <ul className="navbar-nav ml-auto">
-            <li className="nav-item active">
+            {token ? <li className="nav-item active">
               <Link to="" className="nav-link">
                 <i className="fa fa-user"></i>
               </Link>
-            </li> 
+            </li> : (<div>
+              <li className="nav-item-active">
+                <Link to="/login" className="nav-link">
+                  Login
+              </Link>  </li>
+              <li className="nav-item-active">
+                <Link to="/register" className="nav-link">
+                  Register
+              </Link>  </li>
+
+            </div>)}
           </ul>
         </div>
       </nav>
