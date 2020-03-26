@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { loginRoute } from "./helper";
+import { useHistory } from "react-router-dom";
 
 export default function Login() {
   const styles = {
@@ -13,6 +14,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const history = useHistory();
   const handleChange = (setFunc, value) => {
     setFunc(value);
   };
@@ -27,11 +29,13 @@ export default function Login() {
       .then(data => {
         localStorage.setItem("token", `Token ${data.token}`);
         localStorage.setItem("author", data.author);
-        console.log(data);
+        history.push("/");
 
       })
       .catch(err => {
         setError(true);
+        console.log(err);
+        
       });
   };
   return (

@@ -6,3 +6,4 @@ export const loginRoute =baseRoute+"login/"
 export const registerRoute = baseRoute+"register/"
 export const deleteRoute =baseRoute + "delete/"
 export const editRoute = baseRoute+"edit/"
+export const saveProgressRoute =baseRoute +"progress/";

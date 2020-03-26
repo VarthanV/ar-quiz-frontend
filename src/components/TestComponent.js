@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { testRoute } from "./helper";
+import { testRoute, saveProgressRoute } from "./helper";
 import ScoreShower from "./ScoreShower";
 import CompletedOption from "./CompletedOption";
 import EndPage from "./EndPage";
@@ -11,6 +11,7 @@ export default function TestComponent(props) {
   const [questions, setQuestion] = useState([]);
   const [wrong, setWrong] = useState(0);
   let currentQues = questions[questionIdx];
+  const [alreadyCompleted, setAlreadyCompleted] = useState(false);
   const [end, setEnd] = useState(false);
   const history = useHistory();
   const [completed, setCompleted] = useState(false);
@@ -25,13 +26,41 @@ export default function TestComponent(props) {
       alert("Please Login to continue");
       history.push("/login");
     } else {
-      fetch(testRoute + pk)
-        .then(res => res.json())
-        .then(data => {
-          setQuestion(data["questions"]);
-        });
+      console.log("hey");
+      fetch(testRoute + pk + '/', {
+        method: "POST",
+        headers: { "Authorization": localStorage.getItem("token") }
+      }).then(res => res.json()).then(data => {
+
+        setQuestion(data['questions'])
+        setAlreadyCompleted(data['already_completed'])
+        setCompleted(data['already_completed'])
+        if (data['already_completed']) {
+          console.log("hi");
+
+          
+        }
+
+
+      }).catch(err => console.log(err))
     }
   }, []);
+
+  const reportProgress = () => {
+    fetch(saveProgressRoute, {
+      method: "POST",
+      body: JSON.stringify({
+        pk: pk,
+        score: score
+      }),
+      headers: { "Authorization": localStorage.getItem("token") }
+    }).then(res => res.json()).then(data => {
+      console.log(data);
+    }).catch(err => {
+      console.log(err);
+
+    })
+  }
 
   const handleAnswer = e => {
     let newQues = questions;
@@ -49,13 +78,21 @@ export default function TestComponent(props) {
         questions[i].completed = true;
       }
       console.log(score);
+
+
     }
   };
+
+  const markAllComplete = () => {
+    for (let i = 0; i < questions.length; i++) {
+      questions[i].completed = true;
+    }
+  }
   const completeMockTest = () => {
 
     evaluvateAnswers();
     setCompleted(true);
-
+    reportProgress();
 
   };
   const handleNext = () => {
@@ -86,7 +123,7 @@ export default function TestComponent(props) {
   };
   return (
     <div>
-      {end === false ? (
+      {end === false || alreadyCompleted ? (
         <div className="container">
           <div className="row">
             <div className="col">
@@ -102,8 +139,8 @@ export default function TestComponent(props) {
                       </h2>
                       <hr></hr>
                       <p>{currentQues.question}</p>
-                      {currentQues.completed === false ||
-                        currentQues.completed === undefined ? (
+                      { !alreadyCompleted && (currentQues.completed === false ||
+                        currentQues.completed === undefined) ? (
                           currentQues.options.map(item => (
                             <button
                               className={currentQues.choosenAns === item ? "btn btn-primary mr-3" : "btn btn-outline-secondary mr-3"}
@@ -128,7 +165,7 @@ export default function TestComponent(props) {
                         }}
                       ></hr>
                     </div>
-                    <div className="container">
+                    {!alreadyCompleted ? <div className="container">
                       <button
                         className="btn btn-primary px-3 py-2 mr-2 mb-2"
                         onClick={handlePrevious}
@@ -154,7 +191,7 @@ export default function TestComponent(props) {
                       >
                         Complete Mock Test <i className="fa fa-check ml-2"></i>{" "}
                       </button> : <button className="btn btn-primary" onClick={() => setEnd(true)}> Get reports </button>}
-                    </div>
+                    </div> : <div></div>}
                     <br></br>
                   </div>
                 )}
@@ -165,45 +202,45 @@ export default function TestComponent(props) {
                 <h2>Question index</h2>
                 <hr className="mt-1"></hr>
                 <div className="">
-                {questions.map((item, index) => {
-                  return item.completed === undefined ? (
-                    <button
-                      className="btn btn-primary mr-1"
-                      value={index}
-                      onClick={e => handleIndexChange(e)}
-                    >
-                      {" "}
-                      {index}
-                    </button>
-                  ) : item.completed === false ? (
-                    <button
-                      className="btn btn-warning mr-1"
-                      value={index}
-                      onClick={e => handleIndexChange(e)}
-                    >
-                      {" "}
-                      {index}
-                    </button>
-                  ) : item.completed === true && item.answeredCorrect === true ? (
-                    <button
-                      className="btn btn-success mr-1"
-                      value={index}
-                      onClick={e => handleIndexChange(e)}
-                    >
-                      {" "}
-                      {index}
-                    </button>
-                  ) : (
-                          <button
-                            value={index}
-                            className="btn btn-danger mr-1"
-                            onClick={e => handleIndexChange(e)}
-                          >
-                            {" "}
-                            {index}
-                          </button>
-                        );
-                })}
+                  {questions.map((item, index) => {
+                    return item.completed === undefined ? (
+                      <button
+                        className="btn btn-primary mr-1"
+                        value={index}
+                        onClick={e => handleIndexChange(e)}
+                      >
+                        {" "}
+                        {index}
+                      </button>
+                    ) : item.completed === false ? (
+                      <button
+                        className="btn btn-warning mr-1"
+                        value={index}
+                        onClick={e => handleIndexChange(e)}
+                      >
+                        {" "}
+                        {index}
+                      </button>
+                    ) : item.completed === true && item.answeredCorrect === true ? (
+                      <button
+                        className="btn btn-success mr-1"
+                        value={index}
+                        onClick={e => handleIndexChange(e)}
+                      >
+                        {" "}
+                        {index}
+                      </button>
+                    ) : (
+                            <button
+                              value={index}
+                              className="btn btn-danger mr-1"
+                              onClick={e => handleIndexChange(e)}
+                            >
+                              {" "}
+                              {index}
+                            </button>
+                          );
+                  })}
                   <hr></hr>
                   <h5>Instructions</h5>
                   <p>Intruction to candidates will be given here</p>
