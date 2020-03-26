@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { registerRoute } from "./helper";
-
+import { useHistory } from 'react-router-dom';
 export default function Register() {
   const styles = {
     whiteText: {
@@ -13,21 +13,31 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-
+  const history = useHistory();
   const handleChange = (setFunc, value) => {
     setFunc(value);
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    let data= JSON.stringify({
-        email:email,
-        password:password,
-        username:username
+    let data = JSON.stringify({
+      email: email,
+      password: password,
+      username: username
     })
-    fetch(registerRoute, { method: "post", body: data})
+    fetch(registerRoute, { method: "post", body: data })
       .then(res => res.json())
-      .then(data => console.log(data))
+      .then(data => {
+        if (data.registered === true) {
+          alert("Success ! ");
+          history.push("/login");
+        }
+        else {
+          alert("Email or Username Already exists , Please login using your credentials");
+          history.push("/login");
+
+        }
+      })
       .catch(err => console.log(err));
   };
   return (
