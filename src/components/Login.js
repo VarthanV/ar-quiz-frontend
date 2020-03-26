@@ -28,35 +28,46 @@ export default function Login() {
         localStorage.setItem("token", `Token ${data.token}`);
         localStorage.setItem("author", data.author);
         console.log(data);
-        
+
       })
       .catch(err => {
         setError(true);
       });
   };
   return (
-    <div className="container card ml-10" style={styles.whiteText}>
-      {error === true ? (
-        <h2 style={styles.redText}> Email or password Incorrect </h2>
-      ) : (
-        <div> </div>
-      )}
-      <form onSubmit={e => handleSubmit(e)}>
-        <h4> Email</h4> <br></br>
-        <input
-          type="email"
-          onChange={e => handleChange(setEmail, e.target.value)}
-        ></input>
-        <h4> Password</h4> <br></br>
-        <input
-          type="password"
-          onChange={e => handleChange(setPassword, e.target.value)}
-        ></input>
-        <button className="button-success" type="submit">
-          {" "}
-          Submit
-        </button>
-      </form>
+    <div className="container pt-5">
+      <div className="card p-3">
+        <h2 className="text-center">Login</h2>
+        <hr></hr>
+        <form onSubmit={e => handleSubmit(e)}>
+          <label> Email</label> <br></br>
+          <input
+            type="email"
+            className="form-control"
+            onChange={e => handleChange(setEmail, e.target.value)}
+          ></input>
+          <label> Password</label> <br></br>
+          <input
+            type="password"
+            className="form-control"
+            onChange={e => handleChange(setPassword, e.target.value)}
+          ></input>
+          <button className=" btn btn-outline-secondary float-right" type="submit">
+            Login{""}
+          </button>
+        </form>
+        {error === true ? (
+          <div>
+            <hr></hr>
+            <div className="alert alert-warning text-center">
+              <a>Your login details were not correct. Please contact the system admin for your login details</a>
+            </div>
+          </div>
+        ) : (
+            <div> </div>
+          )}
+
+      </div>
     </div>
   );
 }

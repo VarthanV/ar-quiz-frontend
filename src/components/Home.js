@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./Navbar";
 import QuizItem from "./QuizItem";
 import { homeRoute } from "./helper";
 
@@ -19,7 +18,7 @@ export default function Home() {
   return (
     <div>
       
-      <h1 className="display-4 text-center p-5" style={{color: "white"}}>Available Mock Tests</h1>
+      <h1 className="display-4 text-center p-5">Available Mock Tests</h1>
       <div className="container">
         {quiz.map(item => (
           <div key={item.pk}>

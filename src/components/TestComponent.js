@@ -14,7 +14,7 @@ export default function TestComponent(props) {
   const [end, setEnd] = useState(false);
   const history = useHistory();
   const [completed, setCompleted] = useState(false);
-  const [dummy,setDummy] =useState(0);
+  const [dummy, setDummy] = useState(0);
 
   //const [incompleteQuestions, setIncompleteQuestions] = useState([]);
   useEffect(() => {
@@ -37,7 +37,7 @@ export default function TestComponent(props) {
     let newQues = questions;
     newQues[questionIdx].choosenAns = e.target.value;
     setQuestion(newQues);
-    setDummy(dummy+1);
+    setDummy(dummy + 1);
     console.log(questions);
   };
   const evaluvateAnswers = () => {
@@ -52,11 +52,11 @@ export default function TestComponent(props) {
     }
   };
   const completeMockTest = () => {
-    
+
     evaluvateAnswers();
     setCompleted(true);
 
-    
+
   };
   const handleNext = () => {
     if (questionIdx === questions.length - 1) {
@@ -93,149 +93,133 @@ export default function TestComponent(props) {
               {currentQues === undefined ? (
                 <h1> Loading</h1>
               ) : (
-                <div className="card" style={{ marginTop: "50px" }}>
-                  <div className="card-body">
-                    <h1
-                      className="float-right display-4"
-                      style={{ color: "white" }}
-                    >
-                      {" "}
-                      {questionIdx + 1}/{questions.length}
-                    </h1>
-                    <h2 style={{ color: "white" }}>
-                      Question {questionIdx + 1}
-                    </h2>
-                    <hr
-                      style={{
-                        width: "85%",
-                        marginLeft: "0px",
-                        backgroundColor: "white"
-                      }}
-                    ></hr>
-                    <p style={{ color: "white" }}>{currentQues.question}</p>
-                    {currentQues.completed === false ||
-                    currentQues.completed === undefined ? (
-                      currentQues.options.map(item => (
-                        <button
-                          className= { currentQues.choosenAns === item ?"button-warning mr-3":"button-primary mr-3 "}
-                          onClick={e => handleAnswer(e)}
-                          value={item}
-                        >
-                          {item}
-                        </button>
-                      ))
-                    ) : (
-                      <CompletedOption
-                        options={currentQues.options}
-                        correctOption={currentQues.answer}
-                      ></CompletedOption>
-                    )}
-                    <hr
-                      style={{
-                        width: "85%",
-                        marginLeft: "0px",
-                        marginBottom: "-10px",
-                        backgroundColor: "white"
-                      }}
-                    ></hr>
-                  </div>
-                  <div className="container ml-1">
-                    <button
-                      className="button-primary mr-3 pl-3 pr-3 pt-2 pb-2"
-                      onClick={handlePrevious}
-                    >
-                      <i className="fa fa-arrow-left mr-2"></i> Previous
+                  <div className="card mt-5 pb-4">
+                    <div className="card-body">
+                      <h1 className="float-right h2">{" "}{questionIdx + 1} of {questions.length}
+                      </h1>
+                      <h2>
+                        Question {questionIdx + 1}
+                      </h2>
+                      <hr></hr>
+                      <p>{currentQues.question}</p>
+                      {currentQues.completed === false ||
+                        currentQues.completed === undefined ? (
+                          currentQues.options.map(item => (
+                            <button
+                              className={currentQues.choosenAns === item ? "btn btn-primary mr-3" : "btn btn-outline-secondary mr-3"}
+                              onClick={e => handleAnswer(e)}
+                              value={item}
+                            >
+                              {item}
+                            </button>
+                          ))
+                        ) : (
+                          <CompletedOption
+                            options={currentQues.options}
+                            correctOption={currentQues.answer}
+                          ></CompletedOption>
+                        )}
+                      <hr
+                        style={{
+                          width: "85%",
+                          marginLeft: "0px",
+                          marginBottom: "-10px",
+                          backgroundColor: "white"
+                        }}
+                      ></hr>
+                    </div>
+                    <div className="container">
+                      <button
+                        className="btn btn-primary px-3 py-2 mr-2 mb-2"
+                        onClick={handlePrevious}
+                      >
+                        <i className="fa fa-arrow-left mr-2"></i> Previous
                       Question
-                    </button>
-                    <button
-                      className="button-primary mr-3 pl-3 pr-3 pt-2 pb-2"
-                      onClick={handleNext}
-                    >
-                      Next Question <i className="fa fa-arrow-right ml-2"></i>{" "}
-                    </button>
-                    <button
-                      className="button-warning mr-3 pl-3 pr-3 pt-2 pb-2"
-                      onClick={markForlater}
-                    >
-                      Mark for Review <i className="fa fa-clock-o ml-1"></i>{" "}
-                    </button>
-                  {completed ===false ?  <button
-                      className="button-success mr-3 pl-3 pr-3 pt-2 pb-2"
-                      onClick={completeMockTest}
-                    >
-                      Complete Mock Test <i className="fa fa-check ml-2"></i>{" "}
-                    </button>:<button className="button-primary" onClick={() => setEnd(true)}> Get reports </button>}  
+                      </button>
+                      <button
+                        className="btn btn-primary px-3 py-2 mr-2 mb-2"
+                        onClick={handleNext}
+                      >
+                        Next Question <i className="fa fa-arrow-right ml-2"></i>{" "}
+                      </button>
+                      <button
+                        className="btn btn-warning px-3 py-2 mr-2 mb-2"
+                        onClick={markForlater}
+                      >
+                        Mark for Review <i className="fa fa-clock-o ml-1"></i>{" "}
+                      </button>
+                      {completed === false ? <button
+                        className="btn btn-success px-3 py-2 mr-2 mb-2"
+                        onClick={completeMockTest}
+                      >
+                        Complete Mock Test <i className="fa fa-check ml-2"></i>{" "}
+                      </button> : <button className="btn btn-primary" onClick={() => setEnd(true)}> Get reports </button>}
+                    </div>
+                    <br></br>
                   </div>
-                  <br></br>
-                </div>
-              )}
-              <br></br>
-              <div className="card p-4">
-                <h2 className="mb-0" style={{ color: "white" }}>
-                  Mock Test Instructions
-                </h2>
-                <hr className="mt-1" style={{ backgroundColor: "white" }}></hr>
-                <p style={{ color: "white" }}>
-                  Mock test instructions will be populated here
-                </p>
-              </div>
+                )}
             </div>
 
-            <div className="col-lg-3">
-              <div style={{ textAlign: "center", paddingTop: "50px" }}>
-                <ScoreShower score={score}></ScoreShower>
+            <div className="col-md-4 mt-5">
+              <div className="card p-3">
+                <h2>Question index</h2>
+                <hr className="mt-1"></hr>
+                <div className="">
+                {questions.map((item, index) => {
+                  return item.completed === undefined ? (
+                    <button
+                      className="btn btn-primary mr-1"
+                      value={index}
+                      onClick={e => handleIndexChange(e)}
+                    >
+                      {" "}
+                      {index}
+                    </button>
+                  ) : item.completed === false ? (
+                    <button
+                      className="btn btn-warning mr-1"
+                      value={index}
+                      onClick={e => handleIndexChange(e)}
+                    >
+                      {" "}
+                      {index}
+                    </button>
+                  ) : item.completed === true && item.answeredCorrect === true ? (
+                    <button
+                      className="btn btn-success mr-1"
+                      value={index}
+                      onClick={e => handleIndexChange(e)}
+                    >
+                      {" "}
+                      {index}
+                    </button>
+                  ) : (
+                          <button
+                            value={index}
+                            className="btn btn-danger mr-1"
+                            onClick={e => handleIndexChange(e)}
+                          >
+                            {" "}
+                            {index}
+                          </button>
+                        );
+                })}
+                  <hr></hr>
+                  <h5>Instructions</h5>
+                  <p>Intruction to candidates will be given here</p>
+                </div>
               </div>
-              <br></br>
-              {questions.map((item, index) => {
-                return item.completed === undefined ? (
-                  <button
-                    className="mark-button-primary mr-1"
-                    value={index}
-                    onClick={e => handleIndexChange(e)}
-                  >
-                    {" "}
-                    {index}
-                  </button>
-                ) : item.completed === false ? (
-                  <button
-                    className="mark-button-warning mr-1"
-                    value={index}
-                    onClick={e => handleIndexChange(e)}
-                  >
-                    {" "}
-                    {index}
-                  </button>
-                ) : item.completed === true && item.answeredCorrect === true ? (
-                  <button
-                    className="mark-button-success mr-1"
-                    value={index}
-                    onClick={e => handleIndexChange(e)}
-                  >
-                    {" "}
-                    {index}
-                  </button>
-                ) : (
-                  <button
-                    value={index}
-                    className="mark-button-danger mr-1"
-                    onClick={e => handleIndexChange(e)}
-                  >
-                    {" "}
-                    {index}
-                  </button>
-                );
-              })}
             </div>
           </div>
           <br></br>
         </div>
       ) : (
-        <EndPage
-          score={score}
-          total={questions.length + 1}
-          wrongAnswers={wrong}
-        ></EndPage>
-      )}
+          <EndPage
+            score={score}
+            total={questions.length + 1}
+            wrongAnswers={wrong}
+          ></EndPage>
+        )}
     </div>
   );
 }

@@ -8,13 +8,13 @@ export default function CompletedOption({ options, correctOption }) {
             {item === correctOption ? (
                 <button
                 disabled
-                className="button-success mr-3">
+                className="btn btn-success mr-3">
                     {item}
                 </button>
             ) : (
                 <button
                 disabled
-                className="button-primary mr-3">
+                className="btn btn-secondary mr-3">
                     {item}
                 </button>
             )}

@@ -5,10 +5,7 @@ export default function Navbar() {
   
   return (
     <div>
-      <nav className="navbar navbar-style navbar-dark navbar-expand-lg pl-5 pr-5">
-        <Link className="navbar-brand" to="/">
-          AR Coaching Center
-        </Link>
+      <nav className="navbar navbar-style navbar-dark navbar-expand-lg  bg-dark pl-md-5 pr-md-5">
         <button
           className="navbar-toggler"
           type="button"
@@ -20,7 +17,10 @@ export default function Navbar() {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navbarNavDropdown">
+        <Link className="navbar-brand" to="/">
+          AR Coaching Center
+        </Link>
+        <div className="collapse navbar-collapse text-right" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item active">
               <Link className="nav-link" to="/">

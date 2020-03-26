@@ -33,7 +33,13 @@ export default function Register() {
           history.push("/login");
         }
         else {
-          alert("Email or Username Already exists , Please login using your credentials");
+          return (
+            <div>
+              <div className="alert alert-warning">
+                <a>A user might be existing already with the same username or email.</a>
+              </div>
+            </div>
+          )
           history.push("/login");
 
         }
@@ -41,28 +47,32 @@ export default function Register() {
       .catch(err => console.log(err));
   };
   return (
-    <div className="container card ml-10" style={styles.whiteText}>
+    <div className="container pt-5">
+      <div className="card p-3">
+        <h2 className="text-center">Register</h2>
+        <hr></hr>
       <form onSubmit={e => handleSubmit(e)}>
-        <h4> UserName</h4> <br></br>
+        <label> Username</label> <br></br>
         <input
-          type="text"
+          type="text" className="form-control"
           onChange={e => handleChange(setUsername, e.target.value)}
         ></input>
-        <h4> Email</h4> <br></br>
+        <label> Email</label> <br></br>
         <input
-          type="email"
+          type="email" className="form-control"
           onChange={e => handleChange(setEmail, e.target.value)}
         ></input>
-        <h4> Password</h4> <br></br>
+        <label> Password</label> <br></br>
         <input
-          type="password"
+          type="password" className="form-control"
           onChange={e => handleChange(setPassword, e.target.value)}
         ></input>
-        <button className="button-success" type="submit">
+        <button className="btn btn-outline-secondary float-right" type="submit">
           {" "}
           Submit
         </button>
       </form>
-    </div>
+      </div>
+      </div>
   );
 }
