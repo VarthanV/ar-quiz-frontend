@@ -29,13 +29,12 @@ export default function Login() {
       .then(data => {
         localStorage.setItem("token", `Token ${data.token}`);
         localStorage.setItem("author", data.author);
+        localStorage.setItem("authorized", data["is_authorized"]);
         history.push("/");
-
       })
       .catch(err => {
         setError(true);
         console.log(err);
-        
       });
   };
   return (
@@ -56,7 +55,10 @@ export default function Login() {
             className="form-control"
             onChange={e => handleChange(setPassword, e.target.value)}
           ></input>
-          <button className=" btn btn-outline-secondary float-right" type="submit">
+          <button
+            className=" btn btn-outline-secondary float-right"
+            type="submit"
+          >
             Login{""}
           </button>
         </form>
@@ -64,13 +66,15 @@ export default function Login() {
           <div>
             <hr></hr>
             <div className="alert alert-warning text-center">
-              <a>Your login details were not correct. Please contact the system admin for your login details</a>
+              <a>
+                Your login details were not correct. Please contact the system
+                admin for your login details
+              </a>
             </div>
           </div>
         ) : (
-            <div> </div>
-          )}
-
+          <div> </div>
+        )}
       </div>
     </div>
   );

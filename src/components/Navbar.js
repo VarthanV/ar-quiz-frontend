@@ -1,7 +1,12 @@
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 export default function Navbar() {
   const token = localStorage.getItem('token');
+  const history= useHistory();
+  const logout = ()=>{
+    localStorage.removeItem("token");
+    history.push("/home");
+  }
 
   return (
     <div>
@@ -40,9 +45,9 @@ export default function Navbar() {
           </ul>
           <ul className="navbar-nav ml-auto">
             {token ? <li className="nav-item active">
-              <Link to="" className="nav-link">
-                <i className="fa fa-user"></i>
-              </Link>
+              <button onClick={() =>logout() } className="nav-link">
+                Logout
+              </button>
             </li> : (<div>
               <li className="nav-item-active">
                 <Link to="/login" className="nav-link">

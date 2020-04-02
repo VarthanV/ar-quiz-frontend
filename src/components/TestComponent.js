@@ -27,22 +27,29 @@ export default function TestComponent(props) {
       history.push("/login");
     } else {
       console.log("hey");
-      fetch(testRoute + pk + '/', {
-        method: "POST",
-        headers: { "Authorization": localStorage.getItem("token") }
-      }).then(res => res.json()).then(data => {
 
-        setQuestion(data['questions'])
-        setAlreadyCompleted(data['already_completed'])
-        setCompleted(data['already_completed'])
-        if (data['already_completed']) {
-          console.log("hi");
-
-          
-        }
-
-
-      }).catch(err => console.log(err))
+      if (localStorage.getItem("authorized") === true) {
+        fetch(testRoute + pk + "/", {
+          method: "POST",
+          headers: { Authorization: localStorage.getItem("token") }
+        })
+          .then(res => res.json())
+          .then(data => {
+            setQuestion(data["questions"]);
+            setAlreadyCompleted(data["already_completed"]);
+            setCompleted(data["already_completed"]);
+            if (data["already_completed"]) {
+              console.log("hi");
+            }
+          })
+          .catch(err => console.log(err));
+        return;
+      } else {
+        alert(
+          "You must be authorized please contact admin for further details"
+        );
+        history.push('/');
+      }
     }
   }, []);
 
@@ -53,14 +60,16 @@ export default function TestComponent(props) {
         pk: pk,
         score: score
       }),
-      headers: { "Authorization": localStorage.getItem("token") }
-    }).then(res => res.json()).then(data => {
-      console.log(data);
-    }).catch(err => {
-      console.log(err);
-
+      headers: { Authorization: localStorage.getItem("token") }
     })
-  }
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   const handleAnswer = e => {
     let newQues = questions;
@@ -78,8 +87,6 @@ export default function TestComponent(props) {
         questions[i].completed = true;
       }
       console.log(score);
-
-
     }
   };
 
@@ -87,13 +94,11 @@ export default function TestComponent(props) {
     for (let i = 0; i < questions.length; i++) {
       questions[i].completed = true;
     }
-  }
+  };
   const completeMockTest = () => {
-
     evaluvateAnswers();
     setCompleted(true);
     reportProgress();
-
   };
   const handleNext = () => {
     if (questionIdx === questions.length - 1) {
@@ -130,48 +135,54 @@ export default function TestComponent(props) {
               {currentQues === undefined ? (
                 <h1> Loading</h1>
               ) : (
-                  <div className="card mt-5 pb-4">
-                    <div className="card-body">
-                      <h1 className="float-right h2">{" "}{questionIdx + 1} of {questions.length}
-                      </h1>
-                      <h2>
-                        Question {questionIdx + 1}
-                      </h2>
-                      <hr></hr>
-                      <p>{currentQues.question}</p>
-                      { !alreadyCompleted && (currentQues.completed === false ||
-                        currentQues.completed === undefined) ? (
-                          currentQues.options.map(item => (
-                            <button
-                              className={currentQues.choosenAns === item ? "btn btn-primary mr-3" : "btn btn-outline-secondary mr-3"}
-                              onClick={e => handleAnswer(e)}
-                              value={item}
-                            >
-                              {item}
-                            </button>
-                          ))
-                        ) : (
-                          <CompletedOption
-                            options={currentQues.options}
-                            correctOption={currentQues.answer}
-                          ></CompletedOption>
-                        )}
-                      <hr
-                        style={{
-                          width: "85%",
-                          marginLeft: "0px",
-                          marginBottom: "-10px",
-                          backgroundColor: "white"
-                        }}
-                      ></hr>
-                    </div>
-                    {!alreadyCompleted ? <div className="container">
+                <div className="card mt-5 pb-4">
+                  <div className="card-body">
+                    <h1 className="float-right h2">
+                      {" "}
+                      {questionIdx + 1} of {questions.length}
+                    </h1>
+                    <h2>Question {questionIdx + 1}</h2>
+                    <hr></hr>
+                    <p>{currentQues.question}</p>
+                    {!alreadyCompleted &&
+                    (currentQues.completed === false ||
+                      currentQues.completed === undefined) ? (
+                      currentQues.options.map(item => (
+                        <button
+                          className={
+                            currentQues.choosenAns === item
+                              ? "btn btn-primary mr-3"
+                              : "btn btn-outline-secondary mr-3"
+                          }
+                          onClick={e => handleAnswer(e)}
+                          value={item}
+                        >
+                          {item}
+                        </button>
+                      ))
+                    ) : (
+                      <CompletedOption
+                        options={currentQues.options}
+                        correctOption={currentQues.answer}
+                      ></CompletedOption>
+                    )}
+                    <hr
+                      style={{
+                        width: "85%",
+                        marginLeft: "0px",
+                        marginBottom: "-10px",
+                        backgroundColor: "white"
+                      }}
+                    ></hr>
+                  </div>
+                  {!alreadyCompleted ? (
+                    <div className="container">
                       <button
                         className="btn btn-primary px-3 py-2 mr-2 mb-2"
                         onClick={handlePrevious}
                       >
                         <i className="fa fa-arrow-left mr-2"></i> Previous
-                      Question
+                        Question
                       </button>
                       <button
                         className="btn btn-primary px-3 py-2 mr-2 mb-2"
@@ -185,16 +196,30 @@ export default function TestComponent(props) {
                       >
                         Mark for Review <i className="fa fa-clock-o ml-1"></i>{" "}
                       </button>
-                      {completed === false ? <button
-                        className="btn btn-success px-3 py-2 mr-2 mb-2"
-                        onClick={completeMockTest}
-                      >
-                        Complete Mock Test <i className="fa fa-check ml-2"></i>{" "}
-                      </button> : <button className="btn btn-primary" onClick={() => setEnd(true)}> Get reports </button>}
-                    </div> : <div></div>}
-                    <br></br>
-                  </div>
-                )}
+                      {completed === false ? (
+                        <button
+                          className="btn btn-success px-3 py-2 mr-2 mb-2"
+                          onClick={completeMockTest}
+                        >
+                          Complete Mock Test{" "}
+                          <i className="fa fa-check ml-2"></i>{" "}
+                        </button>
+                      ) : (
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => setEnd(true)}
+                        >
+                          {" "}
+                          Get reports{" "}
+                        </button>
+                      )}
+                    </div>
+                  ) : (
+                    <div></div>
+                  )}
+                  <br></br>
+                </div>
+              )}
             </div>
 
             <div className="col-md-4 mt-5">
@@ -221,7 +246,8 @@ export default function TestComponent(props) {
                         {" "}
                         {index}
                       </button>
-                    ) : item.completed === true && item.answeredCorrect === true ? (
+                    ) : item.completed === true &&
+                      item.answeredCorrect === true ? (
                       <button
                         className="btn btn-success mr-1"
                         value={index}
@@ -231,15 +257,15 @@ export default function TestComponent(props) {
                         {index}
                       </button>
                     ) : (
-                            <button
-                              value={index}
-                              className="btn btn-danger mr-1"
-                              onClick={e => handleIndexChange(e)}
-                            >
-                              {" "}
-                              {index}
-                            </button>
-                          );
+                      <button
+                        value={index}
+                        className="btn btn-danger mr-1"
+                        onClick={e => handleIndexChange(e)}
+                      >
+                        {" "}
+                        {index}
+                      </button>
+                    );
                   })}
                   <hr></hr>
                   <h5>Instructions</h5>
@@ -251,12 +277,12 @@ export default function TestComponent(props) {
           <br></br>
         </div>
       ) : (
-          <EndPage
-            score={score}
-            total={questions.length + 1}
-            wrongAnswers={wrong}
-          ></EndPage>
-        )}
+        <EndPage
+          score={score}
+          total={questions.length + 1}
+          wrongAnswers={wrong}
+        ></EndPage>
+      )}
     </div>
   );
 }
