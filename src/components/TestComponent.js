@@ -226,9 +226,9 @@ export default function TestComponent(props) {
               )}
             </div>
 
-            <div className="col-md-4 mt-5">
+            <div className="col-md-4 mt-5 d-none d-md-flex">
               <div className="card p-3">
-                <h2>Question index</h2>
+                <h4>Question index</h4>
                 <hr className="mt-1"></hr>
                 <div className="">
                   {questions.map((item, index) => {

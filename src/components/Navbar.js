@@ -5,7 +5,6 @@ export default function Navbar() {
   const history= useHistory();
   const logout = ()=>{
     localStorage.removeItem("token");
-    history.push("/home");
   }
 
   return (
@@ -45,15 +44,15 @@ export default function Navbar() {
           </ul>
           <ul className="navbar-nav ml-auto">
             {token ? <li className="nav-item active">
-              <button onClick={() =>logout() } className="nav-link">
+              <a href="" onClick={() =>logout() } className="nav-link">
                 Logout
-              </button>
-            </li> : (<div>
-              <li className="nav-item-active">
+              </a>
+            </li> : (<div className="navbar-nav ml-auto">
+              <li className="nav-item active">
                 <Link to="/login" className="nav-link">
                   Login
               </Link>  </li>
-              <li className="nav-item-active">
+              <li className="nav-item active">
                 <Link to="/register" className="nav-link">
                   Register
               </Link>  </li>
