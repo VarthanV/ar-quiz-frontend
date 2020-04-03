@@ -26,9 +26,12 @@ export default function TestComponent(props) {
       alert("Please Login to continue");
       history.push("/login");
     } else {
-      console.log("hey");
+      
+      const isAuthorized = localStorage.getItem('authorized')
+      console.log(isAuthorized);
+      
 
-      if (localStorage.getItem("authorized") === true) {
+      if (isAuthorized == 'true') {
         fetch(testRoute + pk + "/", {
           method: "POST",
           headers: { Authorization: localStorage.getItem("token") }
@@ -43,12 +46,13 @@ export default function TestComponent(props) {
             }
           })
           .catch(err => console.log(err));
-        return;
-      } else {
+      } 
+      
+      else {
         alert(
           "You must be authorized please contact admin for further details"
         );
-        history.push('/');
+        history.push("/");
       }
     }
   }, []);

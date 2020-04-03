@@ -29,7 +29,7 @@ export default function Login() {
       .then(data => {
         localStorage.setItem("token", `Token ${data.token}`);
         localStorage.setItem("author", data.author);
-        localStorage.setItem("authorized", data["is_authorized"]);
+        localStorage.setItem("authorized",data["is_authorized"]);
         history.push("/");
       })
       .catch(err => {
