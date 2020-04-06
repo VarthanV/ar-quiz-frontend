@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { addTestRoute } from "./helper";
-import { useHistory } from 'react-router-dom';
+import { useHistory } from "react-router-dom";
+import CKEditor from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 export default function CreateTest() {
   const styles = {
     whiteText: {
-      color: "white"
-    }
-  }
+      color: "white",
+    },
+  };
   const [name, setName] = useState("");
   const [quesCount, setQuesCount] = useState(0);
   const [questions, setQuestions] = useState([]);
@@ -14,14 +17,16 @@ export default function CreateTest() {
   const history = useHistory();
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    if (localStorage.getItem('author') === false || localStorage.getItem('author') === undefined || localStorage.getItem('author') === null) {
-      history.push('/');
+    if (
+      localStorage.getItem("author") === false ||
+      localStorage.getItem("author") === undefined ||
+      localStorage.getItem("author") === null
+    ) {
+      history.push("/");
+    } else {
+      setLoading(false);
     }
-    else {
-      setLoading(false)
-    }
-
-  }, [])
+  }, []);
   const handleChange = (setFunc, value) => {
     setFunc(value);
   };
@@ -43,7 +48,7 @@ export default function CreateTest() {
     questions[index].optionCount++;
     setDummy(dummy + 1);
   };
-  const handleQuestionCount = e => {
+  const handleQuestionCount = (e) => {
     e.preventDefault();
     questions[quesCount] = {};
     questions[quesCount].question = "";
@@ -55,87 +60,145 @@ export default function CreateTest() {
     questions[index].correct_option = value;
 
     console.log(questions);
-
-  }
-  const handleSubmit = e => {
+  };
+  const handleSubmit = (e) => {
     e.preventDefault();
     let data = {
       name: name,
       questions: questions,
-    }
-    fetch(addTestRoute, { method: "post", body: JSON.stringify(data) }).then(res => res.json()).then(data => {
-      if (data['success']) {
-        alert("The Test has been created successfully");
-        history.push('/');
-      }
-    }).catch(err => console.log(err));
-
-
+    };
+    fetch(addTestRoute, { method: "post", body: JSON.stringify(data) })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data["success"]) {
+          alert("The Test has been created successfully");
+          history.push("/");
+        }
+      })
+      .catch((err) => console.log(err));
   };
   return (
     <div className="container pt-5">
       <div className="card p-3 p-md-5">
-        {!isLoading ? <div className="">
-          <form onSubmit={e => handleSubmit(e)}>
-            <h3>Test Creation Portal
-            <button type="submit" className="btn btn-success text-center float-right ml-2"> Submit </button>
-            <button type="submit" className="btn btn-warning text-center float-right">Draft</button>
-            </h3>
-            <hr className="my-1"></hr>
-            <label>Enter the Title for the test</label>
-            <input
-              type="text"
-              value={name}
-              className="form-control"
-              onChange={e => handleChange(setName, e.target.value)}
-            />{" "}
-            {[...Array(quesCount)].map((e, i) => (
-              <div>
-                <hr></hr>
-                <div className="card p-4">
-                  <h4> Question {i + 1}</h4>
-                  <h4> {questions[i].question}</h4>
-                  <input
-                    key={i}
-                    onChange={e => handleQuesChange(e.target.value, i)}
-                    className="form-control"
-                  ></input>{" "}
+        {!isLoading ? (
+          <div className="">
+            <form onSubmit={(e) => handleSubmit(e)}>
+              <h3>
+                Test Creation Portal
+                <button
+                  type="submit"
+                  className="btn btn-success text-center float-right ml-2"
+                >
+                  {" "}
+                  Submit{" "}
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-warning text-center float-right"
+                >
+                  Draft
+                </button>
+              </h3>
+              <hr className="my-1"></hr>
+              <label>Enter the Title for the test</label>
+              <input
+                type="text"
+                value={name}
+                className="form-control"
+                onChange={(e) => handleChange(setName, e.target.value)}
+              />{" "}
+              {[...Array(quesCount)].map((e, i) => (
+                <div>
                   <hr></hr>
-                  <h5>Answer</h5>
-                  <input type="text" className="form-control" key={i} onChange={(e) => handleCorrectOptionChange(i, e.target.value)}></input>
+                  <div className="card p-4">
+                    <h4> Question {i + 1}</h4>
+                    <h4> {questions[i].question}</h4>
 
-                  <hr></hr>
-                  {[...Array(questions[i].optionCount)].map((e, i) => (
-                    <div className="">
-                      <h5> Option {i + 1}</h5>
-                      <input
-                        type="text"
-                        key={i}
-                        className="form-control"
-                        onChange={e =>
-                          handleOptionChange(quesCount - 1, e.target.value)
-                        }
-                      ></input>
-                    </div>
-                  ))}
-                  <div>
+                    <CKEditor
+                      editor={ClassicEditor}
+                      onInit={(editor) => {
+                        // You can store the "editor" and use when it is needed.
+                        console.log("Editor is ready to use!", editor);
+                      }}
+                      onChange={(event, editor) => {
+                        const data = editor.getData();
+                        console.log({ event, editor, data });
+                        handleQuesChange(data, i);
+                      }}
+                    />
                     <hr></hr>
-                    <button className="btn btn-primary floar-rigth" onClick={e => handleOptionIncrement(e, i)}>
-                      {" "}
-                Add options{" "}
-                    </button>{" "}
+                    <h5>Answer</h5>
+                    <CKEditor
+                      editor={ClassicEditor}
+                      onInit={(editor) => {
+                        // You can store the "editor" and use when it is needed.
+                        console.log("Editor is ready to use!", editor);
+                      }}
+                      onChange={(event, editor) => {
+                        const data = editor.getData();
+
+                        handleCorrectOptionChange(i, data);
+                      }}
+                    ></CKEditor>
+
+                    <hr></hr>
+                    {[...Array(questions[i].optionCount)].map((e, i) => (
+                      <div className="">
+                        <h5> Option {i + 1}</h5>
+                        <CKEditor
+                          editor={ClassicEditor}
+                          onInit={(editor) => {
+                            // You can store the "editor" and use when it is needed.
+                            console.log("Editor is ready to use!", editor);
+                          }}
+                          onChange={(event, editor) => {
+                            const data = editor.getData();
+
+                            handleOptionChange(quesCount - 1, data);
+                          }}
+                        ></CKEditor>
+                      </div>
+                    ))}
+                    <div>
+                      <hr></hr>
+                      <button
+                        className="btn btn-primary floar-rigth"
+                        onClick={(e) => handleOptionIncrement(e, i)}
+                      >
+                        {" "}
+                        Add options{" "}
+                      </button>{" "}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-            <hr></hr>
-            <button onClick={e => handleQuestionCount(e)} className="btn btn-primary"> Add Question</button>
-            <hr></hr>
-            <button type="submit" className="btn btn-success text-center float-right ml-2"> Submit </button>
-            <button type="submit" className="btn btn-warning text-center float-right">Draft</button>
-          </form>
-        </div> : <div></div>}
-
+              ))}
+              <hr></hr>
+              <button
+                onClick={(e) => handleQuestionCount(e)}
+                className="btn btn-primary"
+              >
+                {" "}
+                Add Question
+              </button>
+              <hr></hr>
+              <button
+                type="submit"
+                className="btn btn-success text-center float-right ml-2"
+              >
+                {" "}
+                Submit{" "}
+              </button>
+              <button
+                type="submit"
+                className="btn btn-warning text-center float-right"
+              >
+                Draft
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );

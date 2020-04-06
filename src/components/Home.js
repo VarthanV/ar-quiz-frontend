@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import QuizItem from "./QuizItem";
 import { homeRoute } from "./helper";
-
 export default function Home() {
   const [quiz, setQuiz] = useState([]);
   const [author,setAuthor] = useState(false);
@@ -17,6 +16,7 @@ export default function Home() {
 
   return (
     <div>
+      
       
       <h1 className="display-4 text-center p-5">Available Mock Tests</h1>
       <div className="container">
